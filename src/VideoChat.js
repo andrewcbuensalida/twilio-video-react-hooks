@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import Video from "twilio-video";
 import Lobby from "./Lobby";
+import Preview from "./Preview";
 import Room from "./Room";
 
 const VideoChat = () => {
@@ -8,6 +9,8 @@ const VideoChat = () => {
   const [roomName, setRoomName] = useState("");
   const [room, setRoom] = useState(null);
   const [connecting, setConnecting] = useState(false);
+  const [previewAudioTrack, setPreviewAudioTrack] = useState(null);
+  const [previewVideoTrack, setPreviewVideoTrack] = useState(null);
 
   const handleUsernameChange = useCallback((event) => {
     setUsername(event.target.value);
@@ -31,9 +34,16 @@ const VideoChat = () => {
           "Content-Type": "application/json",
         },
       }).then((res) => res.json());
-      Video.connect(data.token, {
+      const connectOptions = {
         name: roomName,
-      })
+      };
+      const tracks = [previewAudioTrack, previewVideoTrack].filter(
+        (t) => t !== null
+      );
+      if (tracks.length > 0) {
+        connectOptions.tracks = tracks;
+      }
+      Video.connect(data.token, connectOptions)
         .then((room) => {
           setConnecting(false);
           setRoom(room);
@@ -43,7 +53,7 @@ const VideoChat = () => {
           setConnecting(false);
         });
     },
-    [roomName, username]
+    [roomName, username, previewVideoTrack, previewAudioTrack]
   );
 
   const handleLogout = useCallback(() => {
@@ -52,6 +62,8 @@ const VideoChat = () => {
         prevRoom.localParticipant.tracks.forEach((trackPub) => {
           trackPub.track.stop();
         });
+        setPreviewVideoTrack(null);
+        setPreviewAudioTrack(null);
         prevRoom.disconnect();
       }
       return null;
@@ -84,14 +96,21 @@ const VideoChat = () => {
     );
   } else {
     render = (
-      <Lobby
-        username={username}
-        roomName={roomName}
-        handleUsernameChange={handleUsernameChange}
-        handleRoomNameChange={handleRoomNameChange}
-        handleSubmit={handleSubmit}
-        connecting={connecting}
-      />
+      <>
+        <Preview
+          setPreviewAudioTrack={setPreviewAudioTrack}
+          previewVideoTrack={previewVideoTrack}
+          setPreviewVideoTrack={setPreviewVideoTrack}
+        />
+        <Lobby
+          username={username}
+          roomName={roomName}
+          handleUsernameChange={handleUsernameChange}
+          handleRoomNameChange={handleRoomNameChange}
+          handleSubmit={handleSubmit}
+          connecting={connecting}
+        />
+      </>
     );
   }
   return render;
