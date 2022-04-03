@@ -1,14 +1,12 @@
 const config = require('./config');
 const express = require('express');
-const bodyParser = require('body-parser');
-const pino = require('express-pino-logger')();
 const cors = require('cors')
 const { videoToken } = require('./tokens');
 
 const app = express();
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-app.use(pino);
+
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 app.use(cors())
 
 const sendTokenResponse = (token, res) => {
@@ -20,12 +18,7 @@ const sendTokenResponse = (token, res) => {
   );
 };
 
-app.get('/api/greeting', (req, res) => {
-  const name = req.query.name || 'World';
-  res.setHeader('Content-Type', 'application/json');
-  res.send(JSON.stringify({ greeting: `Hello ${name}!` }));
-});
-
+//not sure I need a get and a post that does the same thing. just one uses query strings, and the other uses req.body
 app.get('/video/token', (req, res) => {
   const identity = req.query.identity;
   const room = req.query.room;

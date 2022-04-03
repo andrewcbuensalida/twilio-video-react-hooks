@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 
 const Participant = ({ participant }) => {
+  console.log(`This is participant`)
+  console.log(participant)
+  
   const [videoTracks, setVideoTracks] = useState([]);
   const [audioTracks, setAudioTracks] = useState([]);
 

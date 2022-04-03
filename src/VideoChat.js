@@ -21,17 +21,9 @@ const VideoChat = () => {
     async (event) => {
       event.preventDefault();
       setConnecting(true);
-      const data = await fetch("http://localhost:3001/video/token", {
-        method: "POST",
-        body: JSON.stringify({
-          identity: username,
-          room: roomName,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }).then((res) => res.json());
-      Video.connect(data.token, {
+      const data = await fetch(`http://localhost:5000?identity=${username}&room=${roomName}`).then((res) => res.json());
+      
+      Video.connect(data.accessToken, {
         name: roomName,
       })
         .then((room) => {
