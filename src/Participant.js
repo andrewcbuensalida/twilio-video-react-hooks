@@ -1,9 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 
-const Participant = ({ participant }) => {
-  console.log(`This is participant`)
-  console.log(participant)
-  
+const Participant = ({ participant }) => { 
   const [videoTracks, setVideoTracks] = useState([]);
   const [audioTracks, setAudioTracks] = useState([]);
 
@@ -16,6 +13,7 @@ const Participant = ({ participant }) => {
       .filter((track) => track !== null);
 
   useEffect(() => {
+    
     setVideoTracks(trackpubsToTracks(participant.videoTracks));
     setAudioTracks(trackpubsToTracks(participant.audioTracks));
 
@@ -48,11 +46,12 @@ const Participant = ({ participant }) => {
   useEffect(() => {
     const videoTrack = videoTracks[0];
     if (videoTrack) {
-      videoTrack.attach(videoRef.current);
-      return () => {
-        videoTrack.detach();
-      };
-    }
+		// can do this a different way too. https://www.youtube.com/watch?v=K02SnxY6c_0 at time 1:29:32 append child
+		videoTrack.attach(videoRef.current);
+		return () => {
+			videoTrack.detach();
+		};
+	}
   }, [videoTracks]);
 
   useEffect(() => {
