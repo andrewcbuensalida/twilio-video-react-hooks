@@ -8,6 +8,7 @@ const VideoChat = () => {
 	const [roomName, setRoomName] = useState("");
 	const [room, setRoom] = useState(null);
 	const [connecting, setConnecting] = useState(false);
+	const [roomOptions, setRoomOptions] = useState([]);
 
 	const handleUsernameChange = (event) => {
 		setUsername(event.target.value);
@@ -52,6 +53,24 @@ const VideoChat = () => {
 	};
 
 	useEffect(() => {
+		async function getRoomOptions() {
+            setRoomOptions([{ id: 1, name: "Loading..." }]);
+			const response = await new Promise((resolve) => {
+				setTimeout(
+					() =>
+						resolve([
+							{ id: 1, name: "room1" },
+							{ id: 2, name: "room2" },
+							{ id: 3, name: "room3" },
+						]),
+					1000
+				);
+			});
+            setRoomOptions(response)
+		};
+
+		getRoomOptions();
+
 		if (room) {
 			const tidyUp = (event) => {
 				if (event.persisted) {
@@ -80,6 +99,7 @@ const VideoChat = () => {
 			handleRoomNameChange={handleRoomNameChange}
 			handleSubmit={handleSubmit}
 			connecting={connecting}
+			roomOptions={roomOptions}
 		/>
 	);
 };
