@@ -55,18 +55,9 @@ const VideoChat = () => {
 	useEffect(() => {
 		async function getRoomOptions() {
             setRoomOptions([{ id: 1, name: "Loading..." }]);
-			const response = await new Promise((resolve) => {
-				setTimeout(
-					() =>
-						resolve([
-							{ id: 1, name: "room1" },
-							{ id: 2, name: "room2" },
-							{ id: 3, name: "room3" },
-						]),
-					1000
-				);
-			});
-            setRoomOptions(response)
+			const roomOptionsJSON = await fetch('http://localhost:5000/roomOptions')
+            const roomOptions = await roomOptionsJSON.json()
+            setRoomOptions(roomOptions)
 		};
 
 		getRoomOptions();
