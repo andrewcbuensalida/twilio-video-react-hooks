@@ -48,6 +48,8 @@ Then create a pdb
     ADMIN USER andrewcbuensalida IDENTIFIED BY <password>
     file_name_convert = ('\pdbseed\', '\MerryPDB\');
 
+There's other parameters like default tablespace, storage size, create_file_dest
+
 Have to change created pdb from mounted to read write with https://stackoverflow.com/questions/69907074/problem-intalling-oracle-21c-he-network-adapter-could-not-establish-the-connecti
     alter pluggable database MerryPDB open;
     alter pluggable database all save state;

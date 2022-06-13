@@ -3,6 +3,9 @@ import Video from "twilio-video";
 import Lobby from "./Lobby";
 import Room from "./Room";
 
+const EXPRESS_ENDPOINT =
+	process.env.NODE_ENV === "production" ? "" : "http://localhost:5000";
+
 const VideoChat = () => {
 	const [username, setUsername] = useState("");
 	const [roomName, setRoomName] = useState("");
@@ -22,7 +25,7 @@ const VideoChat = () => {
 		event.preventDefault();
 		setConnecting(true);
 		const data = await fetch(
-			`http://localhost:5000?identity=${username}&room=${roomName}`
+			`${EXPRESS_ENDPOINT}?identity=${username}&room=${roomName}`
 		).then((res) => res.json());
 
 		Video.connect(data.accessToken, {
@@ -54,11 +57,13 @@ const VideoChat = () => {
 
 	useEffect(() => {
 		async function getRoomOptions() {
-            setRoomOptions([{ id: 1, name: "Loading..." }]);
-			const roomOptionsJSON = await fetch('http://localhost:5000/roomOptions')
-            const roomOptions = await roomOptionsJSON.json()
-            setRoomOptions(roomOptions)
-		};
+			setRoomOptions([{ id: 1, name: "Loading..." }]);
+			const roomOptionsJSON = await fetch(
+				`${EXPRESS_ENDPOINT}/roomOptions`
+			);
+			const roomOptions = await roomOptionsJSON.json();
+			setRoomOptions(roomOptions);
+		}
 
 		getRoomOptions();
 
