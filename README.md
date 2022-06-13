@@ -1,8 +1,12 @@
-workflow
+development workflow
 In react-native folder, in server,
     nodemon
 In this folder,
     npm start
+
+production workflow
+When trying to npm run build on ubuntu, it freezes (maybe need more ram?), so build locally, make sure build folder is not in .gitignore, push then pull.
+
 
 /////////////////////////////////////////
 Setting up oracle sql database
