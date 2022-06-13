@@ -114,4 +114,44 @@ To list all tables
         OWNER='ANDREWCBUENSALIDA'
 
 /////////////////////////////////////
+setting up nginx, same as in express server
+    sudo nano /etc/nginx/sites-available/merry.anhonestobserver.com.conf
 
+Then type
+
+    upstream loadbalancer {
+        least_conn;
+        server localhost:5000;
+        server localhost:5001;
+    }
+    server {
+        listen 80;
+        root /home/ubuntu/merry/react/build;
+
+        index index.html index.htm index.nginx-debian.html;
+        server_name merry.anhonestobserver.com www.merry.anhonestobserver.com;
+
+        location / {
+                try_files $uri /index.html;
+        }
+
+        location /api {
+                proxy_pass http://loadbalancer;
+                proxy_buffering on;
+        }
+
+    }
+
+Sim link
+    sudo ln -s /etc/nginx/sites-available/merry.anhonestobserver.com.conf /etc/nginx/sites-enabled/
+
+Then reload nginx
+    sudo systemctl reload nginx 
+
+To make sure it's working
+    sudo nginx -t
+
+enable https via certbot ssl
+    sudo certbot --nginx
+
+///////////////////////////////////

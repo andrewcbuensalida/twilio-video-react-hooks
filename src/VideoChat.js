@@ -3,8 +3,10 @@ import Video from "twilio-video";
 import Lobby from "./Lobby";
 import Room from "./Room";
 
-const EXPRESS_ENDPOINT =
-	process.env.NODE_ENV === "production" ? "/api" : "http://localhost:5000/api";
+const EXPRESS_ENDPOINT = "http://localhost:5000/api";
+    console.log(`This is process.env.NODE_ENV in `)
+    console.log(process.env.NODE_ENV)
+    
 
 const VideoChat = () => {
 	const [username, setUsername] = useState("");
