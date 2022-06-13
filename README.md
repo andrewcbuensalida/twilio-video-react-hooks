@@ -4,8 +4,10 @@ In react-native folder, in server,
 In this folder,
     npm start
 
-production workflow
-When trying to npm run build on ubuntu, it freezes (maybe need more ram?), so build locally, make sure build folder is not in .gitignore, push then pull.
+deployment workflow
+When trying to npm run build on ubuntu, it freezes (maybe need more ram?), so build locally, make sure build folder is not in .gitignore, push then pull. ACTUALLY, after running 
+    npx browserslist@latest --update-db
+npm run build didn't freeze ubuntu anymore.
 
 
 /////////////////////////////////////////
@@ -110,3 +112,6 @@ To list all tables
         all_tables
     WHERE 
         OWNER='ANDREWCBUENSALIDA'
+
+/////////////////////////////////////
+
