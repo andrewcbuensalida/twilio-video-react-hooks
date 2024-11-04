@@ -9,6 +9,7 @@
 		"express": "^4.17.1",
 		"react": "^17.0.2",
 		"react-dom": "^17.0.2",
+		"react-express-starter": "file:",
 		"react-scripts": "^4.0.3",
 		"twilio": "^3.69.0",
 		"twilio-video": "^2.17.1"
